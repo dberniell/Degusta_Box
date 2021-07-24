@@ -1,0 +1,16 @@
+version: '3.7'
+
+services:
+
+  php-fpm:
+    build:
+      target: development
+    environment:
+      XDEBUG_CONFIG: remote_host=${XDEBUG_REMOTE_HOST:-host.docker.internal}
+      PHP_IDE_CONFIG: serverName=DegustaBox
+    volumes:
+      - ./Api:/opt/app
+
+  nginx:
+    ports:
+      - 80:80

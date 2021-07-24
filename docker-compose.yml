@@ -1,0 +1,49 @@
+version: '3.7'
+
+services:
+  mysql:
+    image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
+    ports:
+      - "3307:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=api
+      - MYSQL_DATABASE=degustabox
+    volumes:
+      - db_data:/var/lib/mysql
+
+  php-fpm:
+    build:
+      context: .
+      dockerfile: ./docker/php-fpm/Dockerfile
+    depends_on:
+      - mysql
+
+  nginx:
+    build:
+      context: .
+      dockerfile: ./docker/nginx/Dockerfile
+    ports:
+      - "8081:80"
+      - "8080:8080"
+    volumes:
+      - ./Api:/opt/app
+      - web-content:/usr/share/nginx/html:rw
+    depends_on:
+      - php-fpm
+      - ionic
+
+  ionic:
+    build:
+      context: .
+      dockerfile: ./docker/ionic/Dockerfile
+    working_dir: /opt/app
+    ports:
+      - "8100:8100"
+    volumes:
+      - ./Client:/opt/app
+      - web-content:/opt/app/www
+
+volumes:
+  db_data:
+  web-content:
