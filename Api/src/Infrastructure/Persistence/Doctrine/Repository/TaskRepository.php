@@ -25,7 +25,7 @@ class TaskRepository extends MysqlRepository implements TaskRepositoryInterface
         $this->register($task);
     }
 
-    public function findAllByDate(string $date): array
+    public function findAllByDate(\DateTime $date): array
     {
         return $this->findBy(['date' => $date]);
     }
