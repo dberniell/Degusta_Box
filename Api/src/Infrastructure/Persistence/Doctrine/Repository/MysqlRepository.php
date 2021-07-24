@@ -9,6 +9,11 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\QueryBuilder;
 
+/**
+ * Class MysqlRepository
+ *
+ * @author David Berniell Giner <davidberniell@gmail.com>
+ */
 abstract class MysqlRepository extends ServiceEntityRepository
 {
 
