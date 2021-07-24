@@ -12,7 +12,7 @@ interface TaskRepositoryInterface
 {
     public function save(Task $task): void;
 
-    public function findAllByDate(\DateTime $date): array;
+    public function findAllByDate(\DateTimeImmutable $date): array;
 
     public function findByIndex(string $name, string $date): ?Task;
 }

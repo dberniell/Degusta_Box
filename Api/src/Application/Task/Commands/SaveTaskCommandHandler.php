@@ -5,6 +5,7 @@ namespace App\Application\Task\Commands;
 
 use App\Domain\Task\Task;
 use App\Domain\Task\TaskRepositoryInterface;
+use Exception;
 
 /**
  * Class SaveTaskCommandHandler
@@ -24,7 +25,7 @@ class SaveTaskCommandHandler
     /**
      * @param SaveTaskCommand $command
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function __invoke(SaveTaskCommand $command): void
     {
