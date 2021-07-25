@@ -1,8 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Application\Queries;
+namespace App\Application\Task\Query;
 
+use App\Application\QueryHandlerInterface;
 use App\Domain\Task\TaskRepositoryInterface;
 use Exception;
 
@@ -11,7 +12,7 @@ use Exception;
  *
  * @author David Berniell Giner <davidberniell@gmail.com>
  */
-class TasksByDateQueryHandler
+class TasksByDateQueryHandler implements QueryHandlerInterface
 {
 
     private TaskRepositoryInterface $taskRepository;
@@ -31,7 +32,7 @@ class TasksByDateQueryHandler
      */
     public function __invoke(TasksByDateQuery $query): array
     {
-        $date  = new \DateTimeImmutable($query->date());
+        $date  = \DateTime::createFromFormat('d/m/Y', $query->date());
 
         return $this->taskRepository->findAllByDate($date);
     }

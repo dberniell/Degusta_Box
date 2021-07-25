@@ -4,8 +4,8 @@
 namespace App\Infrastructure\UI\Controller;
 
 
-use App\Application\Queries\TasksByDateQuery;
 use App\Application\Task\Commands\SaveTaskCommand;
+use App\Application\Task\Query\TasksByDateQuery;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Messenger\HandleTrait;
@@ -20,19 +20,23 @@ class TaskController
      * @Route("/task", name="save_task", methods={"POST"})
      *
      * @param Request             $request
-     * @param MessageBusInterface $messageBus
+     * @param MessageBusInterface $commandBus
      *
      * @return JsonResponse
+     * @throws \JsonException
      */
-    public function saveTask(Request $request, MessageBusInterface $messageBus): JsonResponse
+    public function saveTask(Request $request, MessageBusInterface $commandBus, MessageBusInterface $queryBus): JsonResponse
     {
-        $taskName = $request->request->get('name');
-        $taskDate = date('d-m-y');
-        $taskDuration = $request->request->get('duration');
+        $this->messageBus = $queryBus;
+
+        $content = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        $taskName = $content['name'];
+        $taskDate = date('d/m/Y');
+        $taskDuration = $content['duration'];
 
         $command = new SaveTaskCommand($taskName, $taskDate, $taskDuration);
 
-        $messageBus->dispatch($command);
+        $commandBus->dispatch($command);
 
         $query = new TasksByDateQuery($taskDate);
 

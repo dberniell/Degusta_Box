@@ -3,8 +3,11 @@ declare(strict_types=1);
 
 namespace App\Application\Task\Commands;
 
+use App\Application\CommandHandlerInterface;
 use App\Domain\Task\Task;
 use App\Domain\Task\TaskRepositoryInterface;
+use DateTime;
+use DateTimeImmutable;
 use Exception;
 
 /**
@@ -12,7 +15,7 @@ use Exception;
  *
  * @author David Berniell Giner <davidberniell@gmail.com>
  */
-class SaveTaskCommandHandler
+class SaveTaskCommandHandler implements CommandHandlerInterface
 {
 
     private TaskRepositoryInterface $taskRepository;
@@ -29,12 +32,12 @@ class SaveTaskCommandHandler
      */
     public function __invoke(SaveTaskCommand $command): void
     {
-        $task = $this->taskRepository->findByIndex($command->name(), $command->date());
+        $task = $this->taskRepository->findByIndex($command->name());
 
         if ($task) {
             $task->increaseDuration($command->duration());
         } else {
-            $task = new Task($command->name(), new \DateTimeImmutable($command->date()), $command->duration());
+           $task = new Task($command->name(), DateTime::createFromFormat('d/m/Y', $command->date()), $command->duration());
         }
 
         $this->taskRepository->save($task);

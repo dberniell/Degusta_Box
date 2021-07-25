@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Task;
 
-use DateTimeImmutable;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -18,14 +18,15 @@ use Doctrine\ORM\Mapping as ORM;
 class Task
 {
     /**
+     * @ORM\Id()
      * @ORM\Column(name="name")
      */
     private string $name;
 
     /**
-     * @ORM\Column(name="date")
+     * @ORM\Column(name="date", type="date")
      */
-    private DateTimeImmutable $date;
+    private DateTime $date;
 
     /**
      * @ORM\Column(name="duration")
@@ -36,10 +37,10 @@ class Task
      * Task constructor.
      *
      * @param string             $name
-     * @param DateTimeImmutable $date
+     * @param DateTime           $date
      * @param int                $duration
      */
-    public function __construct(string $name, DateTimeImmutable $date, int $duration)
+    public function __construct(string $name, DateTime $date, int $duration)
     {
         $this->name     = $name;
         $this->date     = $date;
@@ -55,9 +56,9 @@ class Task
     }
 
     /**
-     * @return DateTimeImmutable
+     * @return DateTime
      */
-    public function date(): DateTimeImmutable
+    public function date(): DateTime
     {
         return $this->date;
     }

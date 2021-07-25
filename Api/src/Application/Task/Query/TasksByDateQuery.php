@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Application\Queries;
+namespace App\Application\Task\Query;
 
 /**
  * Class TasksByDateQuery. Gets all tasks of a date.

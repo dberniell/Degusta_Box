@@ -6,7 +6,9 @@ namespace App\Infrastructure\Persistence\Doctrine\Repository;
 
 use App\Domain\Task\Task;
 use App\Domain\Task\TaskRepositoryInterface;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * Class TaskRepository
@@ -25,13 +27,15 @@ class TaskRepository extends MysqlRepository implements TaskRepositoryInterface
         $this->register($task);
     }
 
-    public function findAllByDate(\DateTimeImmutable $date): array
+    public function findAllByDate(\DateTime $date): array
     {
-        return $this->findBy(['date' => $date]);
+        return $this->_em->createQuery('SELECT t FROM ' . Task::class . ' t WHERE t.date = :date')
+            ->setParameter('date', $date->format('Y-m-d'))
+            ->getArrayResult();
     }
 
-    public function findByIndex(string $name, string $date): ?Task
+    public function findByIndex(string $name): ?Task
     {
-        return $this->find(['name' => $name, 'date' => $date]);
+        return $this->findOneBy(['name' => $name]);
     }
 }
