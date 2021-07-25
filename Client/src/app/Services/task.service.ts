@@ -17,7 +17,7 @@ export class TaskService {
     const endpoint = '/task';
 
     return await this.api.get(endpoint)
-      .then(data => data.data as [])
+      .then(data => data as [])
       .catch(err => {
         if (/Resource not found/.test(err)) {
           this.helpers.displayToast('Empty task list');
@@ -36,8 +36,18 @@ export class TaskService {
     };
 
     return await this.api.post('/task', body)
-      .then(() => {
+      .then((data) => {
         this.helpers.displayToast('Ok', 1000, 'success');
+        return data as [];
       });
+  }
+
+  workingDayTime(taskList) {
+    let totalWorkingDayTime = 0;
+    taskList.each(task => {
+      totalWorkingDayTime += task.duration;
+    });
+
+    return Math.round(totalWorkingDayTime / 360) / 10;
   }
 }

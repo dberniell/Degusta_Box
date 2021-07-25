@@ -13,7 +13,7 @@
     </ion-toolbar>
   </ion-header>
 
-  <div id="container">
+
     <ion-card>
       <ion-card-header>
         <ion-card-title color="primary">Task</ion-card-title>
@@ -21,25 +21,24 @@
       <ion-card-content>
         <ion-item>
           <ion-icon slot="start" name="chevron-forward"></ion-icon>
-          <ion-input placeholder="Type the name of the task" [(ngModel)]="taskName"></ion-input>
-          <ion-button [color]="seconds === 0 ? 'success' : 'danger'" (click)="toggleTimer()">{{ seconds === 0 ? 'Start' : 'Stop' }}</ion-button>
+          <ion-input slot="start" placeholder="Type the name of the task" [(ngModel)]="taskName" [readonly]="seconds !== null"></ion-input>
+          <ion-button slot="end" [color]="seconds === null ? 'success' : 'danger'" (click)="toggleTimer()">{{ seconds === null ? 'Start' : 'Stop' }}</ion-button>
         </ion-item>
-      </ion-card-content>
-    </ion-card>
-    <ion-card>
-      <ion-card-header>
+        <ion-item-divider></ion-item-divider>
+        <ion-card-title color="primary">Timer</ion-card-title>
+        <ion-item><ion-label color="danger">{{ seconds }} <span *ngIf="seconds !== null">seconds</span></ion-label></ion-item>
+        <ion-item-divider></ion-item-divider>
         <ion-card-title color="primary"><u>Summary</u></ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
+
         <ion-list>
           <ion-list-header>
             Tasks done:
           </ion-list-header>
-          <ion-item *ngFor=""></ion-item>
+          <ion-item *ngFor="let task of taskList"><ion-label color="warning">{{ task.name }}</ion-label> <ion-label color="primary"> Duration:</ion-label> {{ task.duration }} seconds</ion-item>
         </ion-list>
         <ion-item-divider></ion-item-divider>
-        <ion-item><ion-label>Total working day time:</ion-label></ion-item>
+        <ion-item><ion-label>Total working day time:</ion-label><ion-label color="success">{{ workingDayHours }} h</ion-label></ion-item>
       </ion-card-content>
     </ion-card>
-  </div>
+
 </ion-content>

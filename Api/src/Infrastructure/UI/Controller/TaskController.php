@@ -43,4 +43,22 @@ class TaskController
         $tasks = $this->handle($query);
         return new JsonResponse($tasks);
     }
+
+    /**
+     * @Route("/task", name="get_tasks", methods={"GET"})
+     *
+     * @param MessageBusInterface $queryBus
+     *
+     * @return JsonResponse
+     */
+    public function getTasks(MessageBusInterface $queryBus): JsonResponse
+    {
+        $this->messageBus = $queryBus;
+
+        $taskDate = date('d/m/Y');
+        $query = new TasksByDateQuery($taskDate);
+
+        $tasks = $this->handle($query);
+        return new JsonResponse($tasks);
+    }
 }
