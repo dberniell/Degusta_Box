@@ -28,7 +28,7 @@
           <ion-list-header>
             Tasks done:
           </ion-list-header>
-          <ion-item *ngFor="let task of taskList"><ion-label color="warning">{{ task.name }}</ion-label> <ion-label color="primary"> Duration:</ion-label> <ion-label class="ion-text-end" color="medium">{{ task.duration }} seconds</ion-label></ion-item>
+          <ion-item *ngFor="let task of taskList"><ion-label color="warning">{{ task.name }}</ion-label> <ion-label class="ion-text-end" color="primary"> Duration:</ion-label> <ion-label class="ion-text-end" color="medium">{{ task.duration }} seconds</ion-label></ion-item>
         </ion-list>
         <ion-item-divider></ion-item-divider>
         <ion-item><ion-label>Total working day time:</ion-label><ion-label color="success">{{ workingDayHours }} h</ion-label></ion-item>
